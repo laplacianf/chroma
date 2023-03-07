@@ -21,7 +21,7 @@ static int hash(char* value) {
     int hash = 5381;
     int c;
 
-    while (c = *value++) {
+    while ((c = *value++)) {
         hash = (hash * 33 + c) % MAP_SIZE; 
     }
 

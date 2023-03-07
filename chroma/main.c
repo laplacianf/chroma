@@ -9,6 +9,8 @@
 #include "parse.h"
 #include "execute.h"
 
+#include "file.h"
+
 void printnode(struct Node* node) {
     if (node == NULL) {
         printf("()");
@@ -199,18 +201,14 @@ void printvalue(struct Value* value) {
 }
 
 int main() {
+    /*
     clock_t start = clock();
-    char* testcode = "var x = \"HI\"; var y = \"Hi\"; var a = x == y;";
+    
+    char* testcode = openfile("test.chr");
     struct Lexer* testlexer = lex(testcode); 
 
     struct Parser* testparser = parse(testlexer);
-
-    /*
-    for (int i = 0; i <= testparser->result->last; i++) {
-        printnode((struct Node*)testparser->result->body[i]);
-    }
-    */
-
+    
     struct Object* testobject = malloc(sizeof(struct Object));
     testobject->name = "test";
     testobject->variables = vector();
@@ -229,6 +227,9 @@ int main() {
     clock_t end = clock();
 
     printf("\ntook %fs\n", (double)(end - start) / CLOCKS_PER_SEC);
-
+    */
+    
+    executemain(openfile("test.chr"));
+    
     return 0;
 }

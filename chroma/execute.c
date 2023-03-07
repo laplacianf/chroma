@@ -687,6 +687,8 @@ void freevalue(struct Value* value) {
     else if (value->type == VALUE_ARRAY) {
         
     }
+    /* some bug here */
+    /*
     else if (value->type == VALUE_FUNCTION || value->type == VALUE_CLASS) {
         safefree(value->invokable->name);
         
@@ -719,7 +721,6 @@ void freevalue(struct Value* value) {
     }
     else if (value->type == VALUE_OBJECT) {
         safefree(value->object->name);
-        
         for (int i = 0; i <= value->invokable->variables->last; i++) {
             struct Map* variablemap = value->invokable->variables->body[i];
             for (int j = 0; j < MAP_SIZE; j++) {
@@ -735,10 +736,36 @@ void freevalue(struct Value* value) {
             safefree(variablemap->buckets);
             safefree(variablemap);
         }
-        
         safefree(value->invokable->variables->body);
         safefree(value->invokable->variables);
     }
-    
+    */
     safefree(value);
+}
+
+
+void executemain(char* code) {
+    struct Lexer* mainlexer = lex(code);
+    struct Parser* mainparser = parse(mainlexer);
+    
+    struct Object* mainobject = malloc(sizeof(struct Object));
+    mainobject->name = "__main";
+    mainobject->variables = vector();
+    push(mainobject->variables, map());
+
+    struct Vector* references = vector();
+    
+    execute(mainobject, mainparser->result, mainparser, references, 0);
+    
+    for (int i = 0; i <= references->last; i++) {
+        freevalue(references->body[i]);
+    }
+    
+    struct Value* mainobjectvalue = malloc(sizeof(struct Value));
+    mainobjectvalue->object = mainobject;
+    mainobjectvalue->type = VALUE_OBJECT;
+    
+    freevalue(mainobjectvalue);
+    
+    //free parser
 }

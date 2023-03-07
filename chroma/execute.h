@@ -46,5 +46,6 @@ struct ExecuteState {
 };
 
 struct ExecuteState* execute(struct Object* object, struct Vector* body, struct Parser* parser, struct Vector* references, int isloop);
+void executemain(char* code);
 
 #endif
