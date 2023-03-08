@@ -17,8 +17,6 @@
     free(p);\
     p = NULL
 
-//add executemain function & freevalue function ==> end!
-
 static char* valuetype2str(enum ValueType type) {
     if (type == VALUE_NUMBER) {
         return "number";
