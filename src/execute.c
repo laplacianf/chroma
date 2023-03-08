@@ -687,8 +687,6 @@ void freevalue(struct Value* value) {
     else if (value->type == VALUE_ARRAY) {
         
     }
-    /* some bug here */
-    /*
     else if (value->type == VALUE_FUNCTION || value->type == VALUE_CLASS) {
         safefree(value->invokable->name);
         
@@ -721,8 +719,8 @@ void freevalue(struct Value* value) {
     }
     else if (value->type == VALUE_OBJECT) {
         safefree(value->object->name);
-        for (int i = 0; i <= value->invokable->variables->last; i++) {
-            struct Map* variablemap = value->invokable->variables->body[i];
+        for (int i = 0; i <= value->object->variables->last; i++) {
+            struct Map* variablemap = value->object->variables->body[i];
             for (int j = 0; j < MAP_SIZE; j++) {
                 struct Vector* bucket = variablemap->buckets[j];
                 
@@ -736,10 +734,10 @@ void freevalue(struct Value* value) {
             safefree(variablemap->buckets);
             safefree(variablemap);
         }
-        safefree(value->invokable->variables->body);
-        safefree(value->invokable->variables);
+        safefree(value->object->variables->body);
+        safefree(value->object->variables);
     }
-    */
+    
     safefree(value);
 }
 
@@ -749,7 +747,7 @@ void executemain(char* code) {
     struct Parser* mainparser = parse(mainlexer);
     
     struct Object* mainobject = malloc(sizeof(struct Object));
-    mainobject->name = "__main";
+    mainobject->name = NULL;
     mainobject->variables = vector();
     push(mainobject->variables, map());
 
